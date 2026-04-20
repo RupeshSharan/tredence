@@ -24,6 +24,8 @@ class PrunableLinear(nn.Module):
 
         self.weight = nn.Parameter(torch.empty(out_features, in_features))
         self.bias = nn.Parameter(torch.empty(out_features)) if bias else None
+        # Start near sigmoid(0)=0.5 so gates are unsaturated and can move
+        # toward either pruning or retention during the first few epochs.
         self.gate_scores = nn.Parameter(torch.empty(out_features, in_features))
         self.reset_parameters()
 
