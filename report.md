@@ -16,7 +16,7 @@ The goal was not just to get sparsity, but to see how much pruning I could get b
 
 The important part is that L1 keeps applying pressure even when a gate is already small. That matters because once a connection becomes weak, the optimizer still has a reason to keep shrinking it toward zero. L2 behaves differently: its gradient gets smaller near zero, so it tends to leave a lot of tiny values instead of creating genuinely sparse structure. For this problem, L1 is the better fit because I want gates to die, not just become small.
 
-Concretely, if I think in terms of the positive gate value `g = sigmoid(score)`, the L1 term contributes `sign(g)`, which is `+1` for any positive value regardless of magnitude. L2's gradient is `2g`, so it shrinks toward zero as `g` does. L1 keeps pushing with the same constant force all the way down. That is why L1 produces genuine zeros while L2 mostly produces very small values.
+Concretely, if I write the positive gate value as `g = sigmoid(score)`, the L1 term contributes `sign(g)`, which is `+1` for any positive value regardless of magnitude. L2's gradient is `2g`, so it shrinks toward zero as `g` does. L1 keeps pushing with the same constant force all the way down. That is why L1 produces genuine zeros while L2 mostly produces very small values.
 
 ## Experimental setup
 
