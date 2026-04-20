@@ -33,6 +33,8 @@ class PrunableLinear(nn.Module):
             fan_in, _ = nn.init._calculate_fan_in_and_fan_out(self.weight)
             bound = 1 / math.sqrt(fan_in)
             nn.init.uniform_(self.bias, -bound, bound)
+        # Keep sigmoid(gate_scores) near 0.5 at the start so pruning gradients
+        # can flow before the sparsity regularizer ramps up.
         nn.init.normal_(self.gate_scores, mean=0.0, std=self.gate_init_std)
 
     def gate_values(self) -> Tensor:
@@ -68,4 +70,3 @@ class SelfPruningNet(nn.Module):
         x = F.relu(self.fc1(x))
         x = F.relu(self.fc2(x))
         return self.fc3(x)
-
