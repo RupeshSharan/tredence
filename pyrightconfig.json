@@ -1,0 +1,12 @@
+{
+  "include": [
+    "train.py",
+    "src",
+    "tests"
+  ],
+  "extraPaths": [
+    "./src"
+  ],
+  "venvPath": ".",
+  "reportMissingImports": true
+}
