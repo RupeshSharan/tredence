@@ -176,6 +176,8 @@ def run_experiment(config: ExperimentConfig) -> dict[str, object]:
         if test_metrics["test_accuracy"] >= best_test_accuracy:
             best_test_accuracy = test_metrics["test_accuracy"]
             best_epoch = epoch + 1
+            # Accuracy and sparsity can drift apart late in training, so keep
+            # the best-performing checkpoint as well as the final model.
             torch.save(model.state_dict(), config.output_dir / "best_model.pt")
 
         print(
@@ -241,4 +243,3 @@ def run_sweep(base_config: ExperimentConfig, lambda_values: list[float]) -> list
     write_markdown_summary(sweep_dir / "summary.md", summaries)
     plot_layerwise_sparsity(summaries, sweep_dir / "layerwise_sparsity.png")
     return summaries
-
